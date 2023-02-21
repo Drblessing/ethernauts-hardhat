@@ -4,5 +4,5 @@
     "ghcr.io/devcontainers/features/node:1": {}
   },
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install --save-dev hardhat"
+  "postCreateCommand": "npm install --save-dev hardhat && npm install --save-dev @nomicfoundation/hardhat-toolbox@^2.0.0"
 }
