@@ -1,18 +1,28 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat';
+// import hre
+import hre from 'hardhat';
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const Contract = await ethers.getContractFactory('CoinFlipAttack');
+  const contract = await Contract.deploy(
+    '0x7cf95463291af0430316df97fe16a62532a8a539'
+  );
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  await contract.deployed();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  console.log(
+    `Deployed contract to address: ${contract.address} on network: ${hre.network.name}`
+  );
 
-  await lock.deployed();
+  // wait 5 blocks to ensure deployment before verifying
+  await contract.deployTransaction.wait(5);
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  // verify contract on polygonscan
+  await hre.run('verify:verify', {
+    address: contract.address,
+    contract: 'contracts/CoinFlip.sol:CoinFlipAttack',
+    constructorArguments: ['0x7cf95463291af0430316df97fe16a62532a8a539'],
+  });
 }
 
 // We recommend this pattern to be able to use async/await everywhere
