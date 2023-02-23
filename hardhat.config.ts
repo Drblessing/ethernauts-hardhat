@@ -22,6 +22,8 @@ const config: HardhatUserConfig = {
   networks: {
     mumbai: {
       url: process.env.INFURA_MUMBAI,
+      // url: 'https://rpc-mumbai.maticvigil.com',
+      // url: 'https://endpoints.omniatech.io/v1/matic/mumbai/public',
       accounts: [process.env.PRIVATE_KEY],
     },
   },

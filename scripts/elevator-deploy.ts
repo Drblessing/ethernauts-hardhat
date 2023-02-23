@@ -3,17 +3,13 @@ import { ethers } from 'hardhat';
 import hre from 'hardhat';
 
 async function main() {
-  const contract_name = 'Lock';
-  // Get first capitalized word of contract_name
-  const contract_file = contract_name.match(/^[A-Z][a-z]+/)![0];
-  const contract_location = `contracts/${contract_file}.sol:${contract_name}`;
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const hackable_contract_address = currentTimestampInSeconds + 1000000;
+  const contract_name = 'ElevatorAttackTest';
+  const contract_location = 'contracts/ElevatorTest.sol:ElevatorAttackTest';
+  const hackable_contract_address =
+    '0x33Db77a8B3921C4B0D4AD7e3064c75935e636d5a';
 
   const Contract = await ethers.getContractFactory(contract_name);
-  const contract = await Contract.deploy(hackable_contract_address, {
-    value: 1,
-  });
+  const contract = await Contract.deploy(hackable_contract_address);
 
   await contract.deployed();
 
@@ -27,8 +23,8 @@ async function main() {
   // verify contract on polygonscan
   await hre.run('verify:verify', {
     address: contract.address,
-    contract: contract_location,
     constructorArguments: [hackable_contract_address],
+    contract: contract_location,
   });
 }
 

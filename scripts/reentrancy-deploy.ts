@@ -3,16 +3,16 @@ import { ethers } from 'hardhat';
 import hre from 'hardhat';
 
 async function main() {
-  const contract_name = 'Lock';
-  // Get first capitalized word of contract_name
-  const contract_file = contract_name.match(/^[A-Z][a-z]+/)![0];
-  const contract_location = `contracts/${contract_file}.sol:${contract_name}`;
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const hackable_contract_address = currentTimestampInSeconds + 1000000;
+  const contract_name = 'ReentranceAttack';
+  const contract_location = 'contracts/Reentrancy.sol:ReentranceAttack';
+  const hackable_contract_address =
+    '0xA4bB9DA8DbE8913887923d0ad7ea0Ac5e63cA200';
 
   const Contract = await ethers.getContractFactory(contract_name);
+  // deploy with 0.0011 ether
   const contract = await Contract.deploy(hackable_contract_address, {
-    value: 1,
+    value: 2500000000000000,
+    gasLimit: 1_000_000,
   });
 
   await contract.deployed();

