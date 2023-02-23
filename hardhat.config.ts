@@ -2,6 +2,8 @@ import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 // import etherscan for contract verification
 import '@nomiclabs/hardhat-etherscan';
+import '@nomiclabs/hardhat-web3';
+
 // import ethers
 // import .env variables
 import dotenv from 'dotenv';
@@ -12,20 +14,32 @@ declare var process: {
   env: {
     PRIVATE_KEY: string;
     POLYGONSCAN_API_KEY: string;
+    INFURA_MUMBAI: string;
   };
 };
 
 const config: HardhatUserConfig = {
   networks: {
     mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com',
+      url: process.env.INFURA_MUMBAI,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
     apiKey: process.env.POLYGONSCAN_API_KEY,
   },
-  solidity: '0.8.17',
+  // Enable a 0.6 compiler
+  // solidity: '0.8.17',
+  solidity: {
+    compilers: [
+      {
+        version: '0.8.17',
+      },
+      {
+        version: '0.6.12',
+      },
+    ],
+  },
 };
 
 export default config;
