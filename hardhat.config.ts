@@ -19,7 +19,14 @@ declare var process: {
 };
 
 const config: HardhatUserConfig = {
+  defaultNetwork: 'hardhat',
   networks: {
+    hardhat: {
+      mining: {
+        auto: true,
+        // interval: [5000, 10000],
+      },
+    },
     mumbai: {
       url: process.env.INFURA_MUMBAI,
       // url: 'https://rpc-mumbai.maticvigil.com',

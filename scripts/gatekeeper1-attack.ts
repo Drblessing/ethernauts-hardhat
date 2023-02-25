@@ -12,38 +12,43 @@ import hre from 'hardhat';
 // Gas is 423 on my own contract. What is going on?
 // Maybe more solidity optimizations?
 // Let me try with optimizations on.
+// With optimizations, it was 253 gas.
+// So the contract is optimized.
+// In the future, I can brute force with some smart seeding,
+// or figure out how to stack trace mumbai trasnactions for unverified contracts.
 async function main() {
   // deploy gatekeeper contract
-  const gatekeeper_name = 'GatekeeperOne';
-  const gatekeeper_file = 'Gatekeeper1';
-  const gatekeeper_location = `contracts/${gatekeeper_file}.sol:${gatekeeper_name}`;
+  // const gatekeeper_name = 'GatekeeperOne';
+  // const gatekeeper_file = 'Gatekeeper1';
+  // const gatekeeper_location = `contracts/${gatekeeper_file}.sol:${gatekeeper_name}`;
 
-  const Gatekeeper = await ethers.getContractFactory(gatekeeper_name);
-  const gatekeeper = await Gatekeeper.deploy({});
+  // const Gatekeeper = await ethers.getContractFactory(gatekeeper_name);
+  // const gatekeeper = await Gatekeeper.deploy({});
 
-  await gatekeeper.deployed();
+  // await gatekeeper.deployed();
 
-  console.log(
-    `Deployed gatekeeper to address: ${gatekeeper.address} on network: ${hre.network.name}`
-  );
+  // console.log(
+  //   `Deployed gatekeeper to address: ${gatekeeper.address} on network: ${hre.network.name}`
+  // );
 
-  await gatekeeper.deployTransaction.wait(7);
+  // await gatekeeper.deployTransaction.wait(7);
 
-  // verify gatekeeper on polygonscan
-  try {
-    await hre.run('verify:verify', {
-      address: gatekeeper.address,
-      contract: gatekeeper_location,
-      constructorArguments: [],
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  // // verify gatekeeper on polygonscan
+  // try {
+  //   await hre.run('verify:verify', {
+  //     address: gatekeeper.address,
+  //     contract: gatekeeper_location,
+  //     constructorArguments: [],
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
   // deploy gatekeeper attack contract
   const contract_name = 'GatekeeperOneAttack';
   const contract_file = 'Gatekeeper1';
   const contract_location = `contracts/${contract_file}.sol:${contract_name}`;
-  const hackable_contract_address = gatekeeper.address;
+  const hackable_contract_address =
+    '0x7001F6dEAe62DDB5eFD89185818CD39110C4d7b8';
 
   const Contract = await ethers.getContractFactory(contract_name);
   const contract = await Contract.deploy(hackable_contract_address, {

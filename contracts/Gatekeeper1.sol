@@ -56,7 +56,7 @@ contract GatekeeperOneAttack {
 
         // Lets test different i values since mumbai
         // is diff
-        for (uint256 i = 0; i < 3000; i++) {
+        for (uint256 i = 200; i < 3000; i++) {
             (bool success, ) = address(gatekeeperOne).call{
                 gas: i + (8191 * 10)
             }(abi.encodeWithSignature("enter(bytes8)", gateKey));
