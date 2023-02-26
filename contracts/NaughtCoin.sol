@@ -53,3 +53,32 @@ contract NaughtCoinAttack {
         naughtCoin.transferFrom(owner, _to, _value);
     }
 }
+
+// Testing delegate call
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+// Import console log
+import "hardhat/console.sol";
+
+contract A {
+    address public test;
+
+    function b() public {
+        test = msg.sender;
+    }
+}
+
+contract B {
+    A public a;
+
+    constructor(A a_) {
+        a = a_;
+        // Send a delegate call to A
+        (bool success, ) = address(a).delegatecall(
+            abi.encodeWithSignature("b()")
+        );
+    }
+}
