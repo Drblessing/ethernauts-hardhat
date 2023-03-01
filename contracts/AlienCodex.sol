@@ -38,7 +38,6 @@ contract AlienAttack {
 
 }
 
-
 /*
 
 {
@@ -81,5 +80,7 @@ contract AlienAttack {
 		"value": "0xaaaaaa6a701c568545dcfcb03fcb875f56beddc4"
 	}
 }
+
+Have to figure out where the dynamic array starts in memory.
 
 */
