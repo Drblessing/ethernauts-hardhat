@@ -19,14 +19,18 @@ async function main() {
   await contract.deployTransaction.wait(7);
 
   // verify contract on polygonscan
-  await hre.run('verify:verify', {
-    address: contract.address,
-    contract: contract_location,
-    constructorArguments: [hackable_contract_address],
-  });
-
-  // Call shop attack with 50000 gas limit
-  const tx = await contract.attack({ gasLimit: 50_000 });
+  try {
+    await hre.run('verify:verify', {
+      address: contract.address,
+      contract: contract_location,
+      constructorArguments: [hackable_contract_address],
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  
+  // Attack with 60_000 gas
+  const tx = await contract.attack({ gasLimit: 60_000 });
   await tx.wait();
   // Print tx hash
   console.log(`Transaction hash: ${tx.hash}`);
