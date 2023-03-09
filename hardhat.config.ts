@@ -11,6 +11,7 @@ declare var process: {
     INFURA_MUMBAI: string;
     INFURA_SEPOLIA: string;
     ETHERSCAN_API_KEY: string;
+    FREE_SEPOLIA: string;
   };
 };
 
@@ -23,11 +24,13 @@ const config: HardhatUserConfig = {
       },
     },
     mumbai: {
-      url: process.env.INFURA_MUMBAI,
+      // url: process.env.INFURA_MUMBAI,
+      url: 'https://rpc.ankr.com/polygon_mumbai',
       accounts: [process.env.PRIVATE_KEY],
     },
     sepolia: {
-      url: process.env.INFURA_SEPOLIA,
+      // url: process.env.INFURA_SEPOLIA,
+      url: process.env.FREE_SEPOLIA,
       accounts: [process.env.PRIVATE_KEY],
       saveDeployments: true,
     },
@@ -48,6 +51,9 @@ const config: HardhatUserConfig = {
             runs: 1000,
           },
         },
+      },
+      {
+        version: '0.8.12',
       },
       {
         version: '0.6.12',

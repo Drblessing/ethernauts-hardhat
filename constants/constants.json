@@ -1,11 +1,13 @@
 {
   "mumbai": {
-    "ethernauts": {
-      "name": "Ethernauts",
-      "address": "0x7c40c393dc0f283f318791d746d894ddd3693572",
-      "symbol": "ETHN",
-      "decimals": 18,
-      "logoURI": "https://etherscan.io/token/images/ethernauts_28.png"
+    "rpcList": "https://chainlist.org/?testnets=true&search=mumbai",
+    "rpc": "https://polygon-mumbai.blockpi.network/v1/rpc/public"
+  },
+  "ethernauts": {
+    "mumbai": {
+      "ethernaut": "0x73379d8B82Fda494ee59555f333DF7D44483fD58",
+      "dex": "0x36E92B2751F260D6a4749d7CA58247E7f8198284",
+      "createLevelInstanceMethodId": "0xdfc86b17"
     }
   }
 }

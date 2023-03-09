@@ -2,10 +2,11 @@ console.log('Running dev.js.');
 
 const { deployTest } = require('../deploy/deployTest');
 const { verify } = require('../utils/verify');
+const { resetDex } = require('../reset/resetDex');
 
 const main = async () => {
-  contract = await deployTest();
-  await verify(contract.address, []);
+  const dexInstance = await resetDex();
+  console.log('dexInstance:', dexInstance);
 };
 
 main()
