@@ -1,20 +1,16 @@
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
-// import etherscan for contract verification
 import '@nomiclabs/hardhat-etherscan';
 import '@nomiclabs/hardhat-web3';
-
-// import ethers
-// import .env variables
 import dotenv from 'dotenv';
-// load
 dotenv.config();
-// fix .env private key for typescript telling it string is defined
 declare var process: {
   env: {
     PRIVATE_KEY: string;
     POLYGONSCAN_API_KEY: string;
     INFURA_MUMBAI: string;
+    INFURA_SEPOLIA: string;
+    ETHERSCAN_API_KEY: string;
   };
 };
 
@@ -24,21 +20,24 @@ const config: HardhatUserConfig = {
     hardhat: {
       mining: {
         auto: true,
-        // interval: [5000, 10000],
       },
     },
     mumbai: {
       url: process.env.INFURA_MUMBAI,
-      // url: 'https://rpc-mumbai.maticvigil.com',
-      // url: 'https://endpoints.omniatech.io/v1/matic/mumbai/public',
       accounts: [process.env.PRIVATE_KEY],
+    },
+    sepolia: {
+      url: process.env.INFURA_SEPOLIA,
+      accounts: [process.env.PRIVATE_KEY],
+      saveDeployments: true,
     },
   },
   etherscan: {
-    apiKey: process.env.POLYGONSCAN_API_KEY,
+    apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API_KEY,
+      sepolia: process.env.ETHERSCAN_API_KEY,
+    },
   },
-  // Enable a 0.6 compiler
-  // solidity: '0.8.17',
   solidity: {
     compilers: [
       {

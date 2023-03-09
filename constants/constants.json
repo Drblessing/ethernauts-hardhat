@@ -1,0 +1,11 @@
+{
+  "mumbai": {
+    "ethernauts": {
+      "name": "Ethernauts",
+      "address": "0x7c40c393dc0f283f318791d746d894ddd3693572",
+      "symbol": "ETHN",
+      "decimals": 18,
+      "logoURI": "https://etherscan.io/token/images/ethernauts_28.png"
+    }
+  }
+}

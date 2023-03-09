@@ -3,6 +3,8 @@ const deployTest = async () => {
   const contract = await Contract.deploy();
   await contract.deployed();
   console.log('Test deployed to:', contract.address);
+  // Wait 6 blocks for verification
+  // await contract.deployTransaction.wait(6);
   return contract;
 };
 
