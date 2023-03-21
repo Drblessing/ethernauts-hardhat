@@ -16,13 +16,14 @@ declare var process: {
 };
 
 const config: HardhatUserConfig = {
-  defaultNetwork: 'hardhat',
+  // defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
-      mining: {
-        auto: true,
+      forking: {
+        url: process.env.FREE_SEPOLIA,
       },
     },
+
     mumbai: {
       // url: process.env.INFURA_MUMBAI,
       url: 'https://rpc.ankr.com/polygon_mumbai',
@@ -32,7 +33,6 @@ const config: HardhatUserConfig = {
       // url: process.env.INFURA_SEPOLIA,
       url: process.env.FREE_SEPOLIA,
       accounts: [process.env.PRIVATE_KEY],
-      saveDeployments: true,
     },
   },
   etherscan: {
