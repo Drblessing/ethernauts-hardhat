@@ -15,12 +15,11 @@ const config: HardhatUserConfig = {
     hardhat: {
       forking: {
         url: SEPOLIA_RPC,
-        blockNumber: 3138132,
+        blockNumber: 3139300,
       },
     },
 
     mumbai: {
-      // url: process.env.INFURA_MUMBAI,
       url: 'https://rpc.ankr.com/polygon_mumbai',
       accounts: [PRIVATE_KEY],
     },
