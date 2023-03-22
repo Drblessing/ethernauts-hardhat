@@ -20,7 +20,8 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       forking: {
-        url: process.env.FREE_SEPOLIA,
+        url: process.env.INFURA_SEPOLIA,
+        blockNumber: 3138132,
       },
     },
 
