@@ -1,3 +1,1 @@
-describe("Hello Exploit Testing", () => {
-    
-})
+describe('Hello Exploit Testing', () => {});
