@@ -22,14 +22,14 @@ async function main() {
   );
 
   // wait 5 blocks to ensure deployment before verifying
-  await contract.deployTransaction.wait(7);
+  // await contract.deployTransaction.wait(7);
 
   // verify contract on polygonscan
-  await hre.run('verify:verify', {
-    address: contract.address,
-    contract: contract_location,
-    constructorArguments: [hackable_contract_address],
-  });
+  // await hre.run('verify:verify', {
+  //   address: contract.address,
+  //   contract: contract_location,
+  //   constructorArguments: [hackable_contract_address],
+  // });
 }
 
 // We recommend this pattern to be able to use async/await everywhere

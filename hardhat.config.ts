@@ -3,23 +3,18 @@ import '@nomicfoundation/hardhat-toolbox';
 import '@nomiclabs/hardhat-etherscan';
 import dotenv from 'dotenv';
 dotenv.config();
-declare var process: {
-  env: {
-    PRIVATE_KEY: string;
-    POLYGONSCAN_API_KEY: string;
-    INFURA_MUMBAI: string;
-    INFURA_SEPOLIA: string;
-    ETHERSCAN_API_KEY: string;
-    FREE_SEPOLIA: string;
-  };
-};
+
+const SEPOLIA_RPC =
+  process.env.INFURA_SEPOLIA ||
+  'https://ethereum-sepolia.blockpi.network/v1/rpc/public';
+
+const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
 
 const config: HardhatUserConfig = {
-  // defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
       forking: {
-        url: process.env.INFURA_SEPOLIA,
+        url: SEPOLIA_RPC,
         blockNumber: 3138132,
       },
     },
@@ -27,12 +22,11 @@ const config: HardhatUserConfig = {
     mumbai: {
       // url: process.env.INFURA_MUMBAI,
       url: 'https://rpc.ankr.com/polygon_mumbai',
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [PRIVATE_KEY],
     },
     sepolia: {
-      // url: process.env.INFURA_SEPOLIA,
-      url: process.env.FREE_SEPOLIA,
-      accounts: [process.env.PRIVATE_KEY],
+      url: process.env.INFURA_SEPOLIA,
+      accounts: [PRIVATE_KEY],
     },
   },
   etherscan: {
