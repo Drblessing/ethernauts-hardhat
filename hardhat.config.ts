@@ -2,6 +2,7 @@ import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 import '@nomiclabs/hardhat-etherscan';
 import dotenv from 'dotenv';
+import 'hardhat-deploy';
 dotenv.config();
 
 const SEPOLIA_RPC =
@@ -9,6 +10,9 @@ const SEPOLIA_RPC =
   'https://ethereum-sepolia.blockpi.network/v1/rpc/public';
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
+
+const MUMBAI_RPC =
+  process.env.INFURA_MUMBAI || 'https://rpc.ankr.com/polygon_mumbai';
 
 const config: HardhatUserConfig = {
   networks: {
@@ -20,7 +24,7 @@ const config: HardhatUserConfig = {
     },
 
     mumbai: {
-      url: 'https://rpc.ankr.com/polygon_mumbai',
+      url: MUMBAI_RPC,
       accounts: [PRIVATE_KEY],
     },
     sepolia: {
@@ -49,6 +53,11 @@ const config: HardhatUserConfig = {
         version: '0.5.17',
       },
     ],
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
   },
 };
 

